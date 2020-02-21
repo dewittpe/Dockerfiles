@@ -1,0 +1,23 @@
+FROM ubuntu:18.04
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -q && apt-get install -qy \
+  texlive-full \
+  latexmk \
+  tree \
+  gnupg
+
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+RUN apt-get update -q && apt-get install -qy \
+  r-base \
+  r-base-dev \
+  r-recommended
+
+RUN R -e "install.packages(c('devtools', 'qwraps2'), repo = 'https://cran.rstudio.com')"
+
+
+WORKDIR project
+VOLUME ["/project"]
+
