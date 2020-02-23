@@ -1,5 +1,5 @@
-all : latex-and-r
+all : dewittpe/latex-and-r
 
-latex-and-r : Dockerfile.latex-and-r
+dewittpe/latex-and-r : Dockerfile.latex-and-r
 	docker build -t $@ -f $< .
 
