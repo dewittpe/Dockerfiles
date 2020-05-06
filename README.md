@@ -11,6 +11,11 @@ useful.
 The purpose of this image is to have an Unbuntu based image with LaTeX, R, and
 most of the packages I use on a regular basis.
 
+### Dockerfile.rpy
+
+R and python.  This image is expected to be useful for for cpu based work in R
+and python, including Tensorflow via keras.
+
 ## Notes
 
 ### Build an image

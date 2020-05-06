@@ -1,12 +1,25 @@
 FROM ubuntu:18.04
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install -qy gnupg
+RUN apt-get update -q && apt-get install -qy --no-install-recommends apt-utils
+RUN apt-get -y install sudo
+
+# Install gnupg and set the key for R
+RUN apt-get install -qy gnupg
 
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 
-RUN apt-get install -qy texlive-full
+################################################################################
+# install texlive
+RUN apt-get install -qy texlive-base
+RUN apt-get install -qy texlive-bibtex-extra
+RUN apt-get install -qy texlive-fonts-extra
+
+################################################################################
+# install system dependencies
+RUN apt-get install -qy wget
+RUN apt-get install -qy bzip2
 RUN apt-get install -qy latexmk
 RUN apt-get install -qy tree
 RUN apt-get install -qy libxml2-dev
@@ -18,12 +31,17 @@ RUN apt-get install -qy libxml2-dev
 RUN apt-get install -qy gawk
 RUN apt-get install -qy git
 RUN apt-get install -qy qpdf
+RUN apt-get install -qy neovim
 
+################################################################################
+# install R
 RUN apt-get update -q && apt-get install -qy \
   r-base \
   r-base-dev \
   r-recommended
 
+################################################################################
+# install R Packages from CRAN
 RUN R -e "install.packages('remotes', repo = 'https://cran.rstudio.com')"
 
 RUN R -e "remotes::install_cran('data.table', repo = 'https://cran.rstudio.com')"
